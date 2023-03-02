@@ -34,16 +34,20 @@ const Cart = (props) => {
     </ul>
   );
 
-  // const tempoSubmitHandler = () => {
-  //   const mealsData = {
-  //     key:
-  //   }
-  //   fetch("https://react-http-16399-default-rtdb.firebaseio.com/meals/", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify,
-  //   }).then((response) => response.json);
-  // };
+  const clearCartHander = () => {
+    cartCtx.clearCart();
+  };
+
+  const onSubmitOrder = (userData) => {
+    fetch("https://react-http-16399-default-rtdb.firebaseio.com/orders.json", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        users: userData,
+        orderItems: cartCtx.items,
+      }),
+    });
+  };
 
   return (
     <Modal onHideCart={props.onHideCart}>
@@ -53,11 +57,11 @@ const Cart = (props) => {
         <span>{totalAmount}</span>
       </div>
       <div>
-        <CheckOut />
-      </div>
-      <div className={classes.actions}>
-        <button onClick={props.onHideCart}>Close</button>
-        <button className={classes.button}>Order</button>
+        <CheckOut
+          onHideCart={props.onHideCart}
+          onSubmitOrder={onSubmitOrder}
+          onClearCart={clearCartHander}
+        />
       </div>
     </Modal>
   );

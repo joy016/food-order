@@ -1,6 +1,6 @@
 import classes from "./Checkout.module.css";
-import { useState } from "react";
 import UseInput from "../hooks/UseInput";
+import Swal from "sweetalert2";
 
 const isNotEmpty = (value) => value.trim() !== "";
 
@@ -39,6 +39,19 @@ const CheckOut = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    if (!enteredName && !enteredStreet && !enteredPostal && !enteredCity) {
+      Swal.fire("Warning!", "Fields cannot be empty!", "warning");
+      return;
+    }
+    props.onSubmitOrder({
+      name: enteredName,
+      street: enteredStreet,
+      postalCode: enteredPostal,
+      city: enteredCity,
+    });
+    Swal.fire("Good job!", "You clicked the button!", "success");
+
+    props.onClearCart();
     resetInputName();
     resetInputStreet();
     resetInputPostal();
@@ -93,7 +106,7 @@ const CheckOut = (props) => {
         <label htmlFor="Postal">Postal Code</label>
         <input
           placeholder="Enter your Postal"
-          type="text"
+          type="number"
           onChange={handlePostalChange}
           value={enteredPostal}
           onBlur={handlePostalBlur}
@@ -115,7 +128,7 @@ const CheckOut = (props) => {
         )}
       </div>
       <div className={classes.actions}>
-        <button type="button" onClick={props.onCancel}>
+        <button type="button" onClick={props.onHideCart}>
           Cancel
         </button>
         <button className={classes.submit}>Confirm</button>
