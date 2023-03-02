@@ -4,6 +4,20 @@
   margin: 2rem auto;
   animation: meals-appear 1s ease-out forwards;
 }
+.loading {
+  position: absolute; /* or relative */
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-40%, -10%);
+}
+.loading h3 {
+  position: absolute;
+  left: 0.3%;
+  width: 20rem;
+  text-align: center;
+  transform: translate(-40%, -10%);
+}
 
 .meals ul {
   list-style: none;
